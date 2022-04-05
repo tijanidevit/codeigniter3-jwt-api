@@ -11,7 +11,8 @@
             $this->load->model('user_model');
             $this->load->helper([
                 'authorization',
-                'jwt'
+                'jwt',
+                'security'
             ]);
         }
 
@@ -29,8 +30,8 @@
         {
             $data = $this->_getJsonData();
             $user_data = [
-                'fullname' => $data->fullname,
-                'email' => $data->email,
+                'fullname' => $this->security->xss_clean($data->fullname),
+                'email' => $this->security->xss_clean($data->email),
                 'password' => password_hash($data->password, PASSWORD_DEFAULT),
                 'image' => '$data->image',
             ];
